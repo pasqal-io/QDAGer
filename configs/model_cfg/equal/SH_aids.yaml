@@ -1,0 +1,102 @@
+seed: 42
+deterministic: False
+
+data:
+  root: ../dataset/benchmarks
+  dataset_type: equal
+  batch_size: 512
+  save_best_every: 0
+  eval_every: 1
+  connect_corrs: True
+
+  normalize_labels: False
+  loss_space_train: raw
+  loss_space_val: raw
+  loss_space_test: raw
+
+enc:
+  use: True
+  in_dim: 100
+  mid_dim: 64
+  out_dim: 32
+  num_layers: 2
+  enc_dropout: 0.
+
+transformer_layer:
+  in_dim: 32
+  out_dim: 32
+  num_heads: 4
+  N_max: 20
+  residual: True
+  dropout: 0.
+  attn_dropout: 0.1
+  layer_norm: True
+  batch_norm: False
+  norm_e: True
+  num_layers: 5
+
+  edge_updater:
+    per_head_proj: True
+    normalize: True
+  node_updater:
+    per_head_proj: True
+    normalize: True
+
+  degree_scaler: False
+
+out_head:  # REQUIRED by SinkhornTransformerModel (even if disabled)
+  use: False
+  num_layers: 2
+  mid_dim: 32
+  out_dim: 32
+  dropout: 0.1
+
+sinkhorn:
+  use: True
+  perm_hid_dim: 16
+  perm_out_dim: 16
+  tau: 0.1
+  iters: 20
+  noise_factor: 0.0
+  schedule_tau: False
+
+surrogate_loss:
+  node_add: 1.0
+  node_del: 1.0
+  edge_add: 1.0
+  edge_del: 1.0
+  LAMBDA: 1.0
+
+  xor_on_edge: True
+  xor_on_node: True
+  node_surrogate: diffalign
+  mask_dummy_edges_in_surrogate: True
+
+  use_max: False
+  use_second_sinkhorn: False
+  use_second_sinkhorn_log: False
+
+  #use_second_sinkhorn: True
+  #use_second_sinkhorn_log: False
+  #edge_plan_from_embeddings: True
+
+  use_h_hp_node: False
+  use_m_ms_edge: False
+
+  edge_cost_p: 1 # P is the order of the norm in the edge distance calculation
+
+optim:
+  device: cuda
+  clip_grad_norm: True
+  max_norm : 10.0
+  optimizer: adamW
+  weight_decay: 1e-5
+  base_lr: 1e-3
+  max_epoch: 1500
+  num_warmup_epochs: 50
+  scheduler: cosine_with_warmup
+  min_lr: 1e-6
+  early_stop_patience: 100
+
+  # optional clarity
+  compile: False

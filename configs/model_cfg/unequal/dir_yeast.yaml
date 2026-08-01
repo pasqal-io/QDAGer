@@ -1,0 +1,68 @@
+seed: 42
+deterministic: False
+data:
+  root: ../dataset/benchmarks
+  dataset_type: unequal
+  batch_size: 1024
+  save_best_every: 0
+  eval_every: 1
+  connect_corrs: True
+  normalize_labels: False
+  loss_space_train: raw
+  loss_space_val: raw
+  loss_space_test: raw
+enc:
+  use : True
+  in_dim : 100
+  mid_dim: 64
+  out_dim: 32
+  num_layers: 2
+  enc_dropout : 0.1
+transformer_layer :
+  in_dim : 32
+  out_dim : 32
+  num_heads : 4
+  N_max : 20
+  residual : True
+  dropout : 0.1
+  attn_dropout : 0.1
+  layer_norm : False
+  batch_norm : True
+  norm_e : True
+  bn_momentum : 0.1
+  num_layers  : 8
+  edge_updater:
+    per_head_proj: True
+    normalize : True
+  node_updater :
+    per_head_proj: True
+    normalize : True
+  degree_scaler: True
+sinkhorn:
+  use: False
+head_layer:
+  head_type: pooled
+  num_layers : 2
+  pooled:
+    mode: sqrt_sum
+  token_scalar:
+    temperature: 1.0
+  token_gated:
+    temperature: 1.0
+    eps: 1e-8
+  output_positive: True
+  use_size_feat: True
+  head_dim_mid: 64
+  head_dropout: 0.1
+optim:
+  device: cuda
+  clip_grad_norm: True
+  max_norm : 10.0
+  optimizer: adamW
+  weight_decay: 1e-5
+  base_lr: 1e-3
+  max_epoch: 1500
+  num_warmup_epochs: 50
+  scheduler: cosine_with_warmup
+  min_lr: 1e-6
+  early_stop_patience: 100

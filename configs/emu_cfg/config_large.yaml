@@ -1,0 +1,16 @@
+pulse :
+  pulse_duration : 50000
+  DT : 100
+  Omega_max : 3.14159265359
+  delta : 0
+  pulse_type : const
+dataset :
+  size : 26
+MPS_config:
+  max_bond_dim: 2048
+  extra_krylov_tolerance: !!float 1e-2
+  num_gpus_to_use: 2
+  precision: !!float 1e-10
+SV_config:
+  max_krylov_dim : 50
+  krylov_tolerance : !!float 1e-12
